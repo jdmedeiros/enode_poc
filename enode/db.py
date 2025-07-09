@@ -2,8 +2,11 @@ import mysql.connector
 import logging
 import json
 from datetime import datetime
-
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
+
 DB_CONFIG = {
     "host": os.environ["DB_HOST"],
     "user": os.environ["DB_USER"],
