@@ -63,7 +63,8 @@ def enode_webhook():
         logging.info(f"✅ Valid webhook. {len(events)} event(s) received:")
         for event in events:
             logging.info(json.dumps(event, indent=2))
-
+            if event['event'] in ("enode:webhook:test", "system:heartbeat"):
+                break
             user_id = event['user']['id']
             vehicle = event['vehicle']
 
