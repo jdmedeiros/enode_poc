@@ -1,15 +1,20 @@
+import os
+from dotenv import load_dotenv
+from db import insert_user, insert_vehicle, insert_charge_state
 from flask import Flask, request, jsonify
 import hmac
 import hashlib
 import logging
 import json
 
-app = Flask(__name__)
-logging.basicConfig(level=logging.INFO)
+# Load .env if running locally (has no effect in systemd)
+load_dotenv()
 
 # Your Enode webhook secret
-# python3 -c "import secrets; print(secrets.token_urlsafe(32))" past the result below and create the webhook with it
-WEBHOOK_SECRET = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+WEBHOOK_SECRET = os.environ["ENODE_WEBHOOK_SECRET"]
+
+app = Flask(__name__)
+logging.basicConfig(level=logging.INFO)
 
 def verify_signature(payload: bytes, signature: str) -> bool:
     """Verify HMAC-SHA1 signature from Enode."""
@@ -58,6 +63,18 @@ def enode_webhook():
         logging.info(f"✅ Valid webhook. {len(events)} event(s) received:")
         for event in events:
             logging.info(json.dumps(event, indent=2))
+
+            user_id = event['user']['id']
+            vehicle = event['vehicle']
+
+            # Insert user
+            insert_user(user_id)
+
+            # Insert or update vehicle and vehicle information
+            insert_vehicle(vehicle, user_id)
+
+            # Insert charge state snapshot (time-series)
+            insert_charge_state(vehicle)
         return jsonify({"status": "ok"}), 200
     except Exception as e:
         logging.exception("Failed to parse webhook payload")

@@ -6,6 +6,13 @@ from typing import Optional, Dict, Any, List
 from dataclasses import dataclass, field
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # only needed for local `.env` loading
+
+ENODE_CLIENT_ID = os.environ["ENODE_CLIENT_ID"]
+ENODE_CLIENT_SECRET = os.environ["ENODE_CLIENT_SECRET"]
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -211,8 +218,8 @@ class EnodeClient:
 # Example usage
 if __name__ == "__main__":
     client = EnodeClient(
-        client_id="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
-        client_secret="YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+        client_id=ENODE_CLIENT_ID,
+        client_secret=ENODE_CLIENT_SECRET,
         timeout=20
     )
 
