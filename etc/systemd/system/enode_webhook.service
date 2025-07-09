@@ -1,0 +1,22 @@
+[Unit]
+Description=Enode Webhook Flask App
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/enode
+ExecStart=/usr/bin/gunicorn \
+  -w 4 \
+  --worker-connections 1000 \
+  --timeout 120 \
+  -b 0.0.0.0:5080 \
+  --limit-request-line 0 \
+  --limit-request-field_size 0 \
+  "server:app"
+Restart=always
+StandardOutput=append:/var/log/enode_webhook.log
+StandardError=append:/var/log/enode_webhook.log
+
+[Install]
+WantedBy=multi-user.target
