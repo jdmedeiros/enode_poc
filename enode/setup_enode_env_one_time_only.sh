@@ -32,3 +32,7 @@ EOF
 else
     echo ".env file already exists, skipping creation."
 fi
+
+# Step 5: Generate requirements.txt
+echo "Install requirements.txt..."
+pip install -r requirements.txt || echo "requirements.txt not found, skipping installation."
