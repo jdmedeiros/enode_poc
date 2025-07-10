@@ -36,3 +36,6 @@ fi
 # Step 5: Generate requirements.txt
 echo "Install requirements.txt..."
 pip install -r requirements.txt || echo "requirements.txt not found, skipping installation."
+
+# Step 6: Generate secret key
+python3 -c "import secrets; print(secrets.token_urlsafe(32))"
