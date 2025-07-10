@@ -32,7 +32,3 @@ EOF
 else
     echo ".env file already exists, skipping creation."
 fi
-
-# Step 5: Generate requirements.txt
-echo "Writing requirements.txt..."
-pip freeze > requirements.txt
