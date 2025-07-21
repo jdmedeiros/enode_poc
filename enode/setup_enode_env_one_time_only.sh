@@ -24,7 +24,7 @@ ENV_FILE=".env"
 if [[ ! -f $ENV_FILE ]]; then
     echo "Creating .env file..."
     cat <<EOF > $ENV_FILE
-DB_HOST=database-mysql.ctl4ffo64vfd.us-east-1.rds.amazonaws.com
+DB_HOST=apidata.cbiw9auc6ymw.us-east-1.rds.amazonaws.com
 DB_USER=admin
 DB_PASS=Passw0rd
 DB_NAME=enode
